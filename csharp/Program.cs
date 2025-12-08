@@ -12,6 +12,8 @@ public static class Program
         Console.WriteLine($"ThrowRangeErrorCatchException: {ThrowRangeErrorCatchException()}");
         Console.WriteLine($"ThrowLogicErrorCatchException: {ThrowLogicErrorCatchException()}");
         Console.WriteLine($"ThrowRuntimeErrorCatchException: {ThrowRuntimeErrorCatchException()}");
+        Console.WriteLine($"TryOutOfRangeCatchException: {TryOutOfRangeCatchException()}");
+        Console.WriteLine($"TryOutOfRangeCatchOutOfRange: {TryOutOfRangeCatchOutOfRange()}");
     }
 
     [DllImport("Native")]
@@ -37,4 +39,10 @@ public static class Program
 
     [DllImport("Native")]
     private static extern int ThrowRuntimeErrorCatchException();
+
+    [DllImport("Native")]
+    private static extern int TryOutOfRangeCatchException();
+
+    [DllImport("Native")]
+    private static extern int TryOutOfRangeCatchOutOfRange();
 }

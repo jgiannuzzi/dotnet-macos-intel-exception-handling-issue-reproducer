@@ -1,4 +1,5 @@
 #include <stdexcept>
+#include <vector>
 
 extern "C" {
 int ThrowOutOfRangeCatchException() {
@@ -75,6 +76,30 @@ int ThrowRuntimeErrorCatchException() {
   try {
     throw std::runtime_error("Test exception");
   } catch (const std::exception &) {
+    return 0;
+  } catch (...) {
+    return 1;
+  }
+}
+
+int TryOutOfRangeCatchException() {
+  std::vector<int> numbers = {1, 2, 3};
+  try {
+    int value = numbers.at(4); // this should throw std::out_of_range
+    return 2;
+  } catch (const std::exception &) {
+    return 0;
+  } catch (...) {
+    return 1;
+  }
+}
+
+int TryOutOfRangeCatchOutOfRange() {
+  std::vector<int> numbers = {1, 2, 3};
+  try {
+    int value = numbers.at(4); // this should throw std::out_of_range
+    return 2;
+  } catch (const std::out_of_range &) {
     return 0;
   } catch (...) {
     return 1;

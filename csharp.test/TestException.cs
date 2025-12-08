@@ -54,6 +54,18 @@ namespace Tests
             Assert.That(ThrowRuntimeErrorCatchException(), Is.EqualTo(0));
         }
 
+        [Test]
+        public static void TestTryOutOfRangeCatchException()
+        {
+            Assert.That(TryOutOfRangeCatchException(), Is.EqualTo(0));
+        }
+
+        [Test]
+        public static void TestTryOutOfRangeCatchOutOfRange()
+        {
+            Assert.That(TryOutOfRangeCatchOutOfRange(), Is.EqualTo(0));
+        }
+
         [DllImport("Native")]
         private static extern int ThrowOutOfRangeCatchException();
 
@@ -77,5 +89,11 @@ namespace Tests
 
         [DllImport("Native")]
         private static extern int ThrowRuntimeErrorCatchException();
+
+        [DllImport("Native")]
+        private static extern int TryOutOfRangeCatchException();
+
+        [DllImport("Native")]
+        private static extern int TryOutOfRangeCatchOutOfRange();
     }
 }
