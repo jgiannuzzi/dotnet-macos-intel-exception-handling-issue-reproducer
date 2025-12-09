@@ -57,4 +57,8 @@ On macOS Intel, with the .NET 10.0 Runtime, the program outputs `1` for the test
 
 ### CI
 
-There is [CI workflow](https://github.com/jgiannuzzi/dotnet-macos-intel-exception-handling-issue-reproducer/actions/workflows/ci.yml) that runs the reproducer script for all support Unix-based GitHub hosted runners. Checking the output of the script for any macOS runner demontstrates the issue. Search for `===== Testing with x64-9.0-sdk+10.0-runtime =====` and look at the test run. Also search for `===== Testing with x64-10.0` and look at the program outputs and the test runs.
+There is [CI workflow](https://github.com/jgiannuzzi/dotnet-macos-intel-exception-handling-issue-reproducer/actions/workflows/ci.yml) that runs the reproducer script for all supported Unix-based GitHub hosted runners. Checking the output of the script for any macOS runner demonstrates the issue.
+
+Search for `===== Testing with x64-9.0-sdk+10.0-runtime =====` and look at the test run.
+
+Also search for `===== Testing with x64-10.0` and look at the program outputs and the test runs.
