@@ -3,6 +3,12 @@
 export DOTNET_CLI_TELEMETRY_OPTOUT=true
 export DOTNET_NOLOGO=true
 
+if [ -z "${GITHUB_ACTIONS}" ]; then
+  curl_opts=-#
+else
+  curl_opts=-s
+fi
+
 case $(uname -sm) in
 "Linux aarch64")
   os=linux
@@ -30,19 +36,19 @@ if [ ! -d .dotnet ]; then
   for arch in "${dotnet_archs[@]}"; do
     echo "===== Installing .NET SDK 9.0 (${arch}) ====="
     mkdir -p ".dotnet/${arch}-9.0-sdk"
-    curl -#SL "https://aka.ms/dotnet/9.0/dotnet-sdk-${os}-${arch}.tar.gz" | tar -C ".dotnet/${arch}-9.0-sdk" -xzf -
+    curl -SL "${curl_opts}" "https://aka.ms/dotnet/9.0/dotnet-sdk-${os}-${arch}.tar.gz" | tar -C ".dotnet/${arch}-9.0-sdk" -xzf -
     echo "===== Installing .NET SDK 9.0 with .NET Runtime 10.0 (${arch}) ====="
     cp -a ".dotnet/${arch}-9.0-sdk" ".dotnet/${arch}-9.0-sdk+10.0-runtime"
-    curl -#SL "https://aka.ms/dotnet/10.0/dotnet-runtime-${os}-${arch}.tar.gz" | tar -C ".dotnet/${arch}-9.0-sdk+10.0-runtime" -xzf -
+    curl -SL "${curl_opts}" "https://aka.ms/dotnet/10.0/dotnet-runtime-${os}-${arch}.tar.gz" | tar -C ".dotnet/${arch}-9.0-sdk+10.0-runtime" -xzf -
     echo "===== Installing .NET SDK 9.0 with .NET Runtime 10.0 and .NET Runtime 9.0 command (${arch}) ====="
     cp -a ".dotnet/${arch}-9.0-sdk+10.0-runtime" ".dotnet/${arch}-9.0-sdk+10.0-runtime+9.0-command"
-    curl -#SL "https://aka.ms/dotnet/9.0/dotnet-runtime-${os}-${arch}.tar.gz" | tar -C ".dotnet/${arch}-9.0-sdk+10.0-runtime+9.0-command" -xzf - ./dotnet
+    curl -SL "${curl_opts}" "https://aka.ms/dotnet/9.0/dotnet-runtime-${os}-${arch}.tar.gz" | tar -C ".dotnet/${arch}-9.0-sdk+10.0-runtime+9.0-command" -xzf - ./dotnet
     echo "===== Installing .NET SDK 10.0 (${arch}) ====="
     mkdir -p ".dotnet/${arch}-10.0-sdk"
-    curl -#SL "https://aka.ms/dotnet/10.0/dotnet-sdk-${os}-${arch}.tar.gz" | tar -C ".dotnet/${arch}-10.0-sdk" -xzf -
+    curl -SL "${curl_opts}" "https://aka.ms/dotnet/10.0/dotnet-sdk-${os}-${arch}.tar.gz" | tar -C ".dotnet/${arch}-10.0-sdk" -xzf -
     echo "===== Installing .NET SDK 10.0 with .NET Runtime 9.0 command (${arch}) ====="
     cp -a ".dotnet/${arch}-10.0-sdk" ".dotnet/${arch}-10.0-sdk+9.0-command"
-    curl -#SL "https://aka.ms/dotnet/9.0/dotnet-runtime-${os}-${arch}.tar.gz" | tar -C ".dotnet/${arch}-10.0-sdk+9.0-command" -xzf - ./dotnet
+    curl -SL "${curl_opts}" "https://aka.ms/dotnet/9.0/dotnet-runtime-${os}-${arch}.tar.gz" | tar -C ".dotnet/${arch}-10.0-sdk+9.0-command" -xzf - ./dotnet
   done
 fi
 
