@@ -49,3 +49,7 @@ On macOS Apple Silicon, the script will run for both the `arm64` and `x64` archi
 On all combinations but one of OS, architecture, and .NET SDK/Runtime/command, the program outputs only `0`s and the tests all pass.
 
 On macOS Intel, with the .NET 10 `dotnet` command, the tests that throw `std::out_of_range` or `std::length_error` and try to catch them as `std::exception` fail by having the native code go through the catch-all `...`. The program does not fail and only outputs `0`s.
+
+### CI
+
+There is [CI workflow](https://github.com/jgiannuzzi/dotnet-macos-intel-exception-handling-issue-reproducer/actions/workflows/ci.yml) that runs the reproducer script for all support Unix-based GitHub hosted runners. Checking the output of the script for any macOS runner demontstrates the issue. Search for `===== Testing with x64-9.0-sdk+10.0-runtime =====` and look at the test run.
