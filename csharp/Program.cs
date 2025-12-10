@@ -1,19 +1,30 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Reflection;
+using System.Runtime.InteropServices;
 
 public static class Program
 {
     public static void Main()
     {
-        Console.WriteLine($"ThrowOutOfRangeCatchException: {ThrowOutOfRangeCatchException()}");
-        Console.WriteLine($"ThrowOutOfRangeCatchOutOfRange: {ThrowOutOfRangeCatchOutOfRange()}");
-        Console.WriteLine($"ThrowLengthErrorCatchException: {ThrowLengthErrorCatchException()}");
-        Console.WriteLine($"ThrowLengthErrorCatchLengthError: {ThrowLengthErrorCatchLengthError()}");
-        Console.WriteLine($"ThrowInvalidArgumentCatchException: {ThrowInvalidArgumentCatchException()}");
-        Console.WriteLine($"ThrowRangeErrorCatchException: {ThrowRangeErrorCatchException()}");
-        Console.WriteLine($"ThrowLogicErrorCatchException: {ThrowLogicErrorCatchException()}");
-        Console.WriteLine($"ThrowRuntimeErrorCatchException: {ThrowRuntimeErrorCatchException()}");
-        Console.WriteLine($"TryOutOfRangeCatchException: {TryOutOfRangeCatchException()}");
-        Console.WriteLine($"TryOutOfRangeCatchOutOfRange: {TryOutOfRangeCatchOutOfRange()}");
+        bool anyFailed = false;
+
+        var methods = typeof(Program)
+            .GetMethods(BindingFlags.NonPublic | BindingFlags.Static)
+            .Where(m => m.GetCustomAttribute<DllImportAttribute>() != null)
+            .OrderBy(m => m.Name);
+
+        foreach (var method in methods)
+        {
+            int result = (int)method.Invoke(null, null)!;
+
+            Console.WriteLine($"{method.Name}: {result}");
+
+            if (result != 0)
+            {
+                anyFailed = true;
+            }
+        }
+
+        Environment.Exit(anyFailed ? 1 : 0);
     }
 
     [DllImport("Native")]
